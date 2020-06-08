@@ -1,4 +1,4 @@
-;;; etc-sudoers-mode.el --- Edit Sudo security policies
+;;; etc-sudoers-mode.el --- Edit Sudo security policies -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020 Peter Oliver.
 ;;
