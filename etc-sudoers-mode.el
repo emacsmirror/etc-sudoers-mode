@@ -55,6 +55,7 @@
       (setq font-lock-defaults '(generic-font-lock-keywords t))))
   "Generic mode for sudoers configuration files.")
 
+;;;###autoload
 (add-to-list 'auto-mode-alist '("/sudoers\\>" . etc-sudoers-mode))
 
 (provide 'etc-sudoers-mode)
