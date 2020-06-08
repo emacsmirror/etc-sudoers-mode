@@ -57,4 +57,4 @@
 
 (provide 'etc-sudoers-mode)
 
-;;; etc-sudoers-mode ends here
+;;; etc-sudoers-mode.el ends here
