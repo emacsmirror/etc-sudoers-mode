@@ -2,7 +2,7 @@
 
 This [Emacs](https://www.gnu.org/software/emacs/) package provides syntax highlighting for the [Sudo](https://www.sudo.ws/) security policy file, `/etc/sudoers`.
 
-[![MELPA Stable](https://stable.melpa.org/packages/etc-sudoers-mode.svg)](https://stable.melpa.org/#/etc-sudoers-mode) [![MELPA](https://melpa.org/packages/etc-sudoers-mode.svg)](https://melpa.org/#/etc-sudoers-mode)
+[![MELPA Stable](https://stable.melpa.org/packages/etc-sudoers-mode-badge.svg)](https://stable.melpa.org/#/etc-sudoers-mode) [![MELPA](https://melpa.org/packages/etc-sudoers-mode-badge.svg)](https://melpa.org/#/etc-sudoers-mode)
     
 ## Copying
 
