@@ -2,6 +2,8 @@
 
 This [Emacs](https://www.gnu.org/software/emacs/) package provides syntax highlighting for the [Sudo](https://www.sudo.ws/) security policy file, `/etc/sudoers`.
 
+If [Flycheck](https://www.flycheck.org/) is present, it also defines a Flycheck syntax checker using [`visudo`](https://www.sudo.ws/man/1.9.3/visudo.man.html).
+
 [![MELPA Stable](https://stable.melpa.org/packages/etc-sudoers-mode-badge.svg)](https://stable.melpa.org/#/etc-sudoers-mode) [![MELPA](https://melpa.org/packages/etc-sudoers-mode-badge.svg)](https://melpa.org/#/etc-sudoers-mode)
     
 ## Copying
