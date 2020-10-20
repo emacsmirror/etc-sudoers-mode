@@ -16,7 +16,7 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;; Author: Peter Oliver <git@mavit.org.uk>
-;; Version: 1.0.0
+;; Version: 1.1.0
 ;; Package-Requires: ()
 ;; Keywords: languages
 ;; URL: https://gitlab.com/mavit/etc-sudoers-mode/
@@ -25,6 +25,9 @@
 
 ;; This package provides syntax highlighting for the Sudo security
 ;; policy file, /etc/sudoers.
+;;
+;; If Flycheck is present, it also defines a Flycheck syntax checker
+;; using visudo.
 
 ;;; Code:
 
@@ -57,6 +60,26 @@
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("/sudoers\\>" . etc-sudoers-mode))
+
+
+(with-eval-after-load 'flycheck
+  (flycheck-define-checker sudoers
+    "A sudoers syntax checker using 'visudo -c'."
+    :command ("visudo" "-c" "-f" "-")
+    :standard-input t
+    :error-patterns ((error line-start ">>> stdin: " (message)
+                            " near line " line " <<<" line-end)
+                     (error line-start "visudo: stdin:" line " " (message)
+                            line-end)
+                     (error line-start
+                            (or (seq (message) "\nparse error")
+                                (message))
+                            " in stdin near line " line line-end)
+                     (warning line-start "Warning: stdin:" line (message)
+                              line-end))
+    :modes etc-sudoers-mode)
+  (add-to-list 'flycheck-checkers 'sudoers))
+
 
 (provide 'etc-sudoers-mode)
 
