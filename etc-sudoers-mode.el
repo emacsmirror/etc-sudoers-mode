@@ -17,7 +17,7 @@
 
 ;; Author: Peter Oliver <git@mavit.org.uk>
 ;; Version: 1.1.0
-;; Package-Requires: ()
+;; Package-Requires: (sudo-edit with-editor)
 ;; Keywords: languages
 ;; URL: https://gitlab.com/mavit/etc-sudoers-mode/
 
@@ -34,6 +34,11 @@
 ;; off by the name: use visudo.
 
 ;;; Code:
+
+(require 'sudo-edit)
+(require 'tramp)
+(require 'with-editor)
+
 
 ;;;###autoload
 (define-generic-mode 'etc-sudoers-mode
@@ -59,10 +64,18 @@
     ("\\(\\\\\\)$" 1 font-lock-string-face))
   '("/sudoers\\>")
   '((lambda ()
+      (when (etc-sudoers-mode-live-sudoers-p)
+        (when (y-or-n-p "Editing the sudoers file directly is dangerous. Open via the visudo validator instead? ")
+          (etc-sudoers-mode-visudo)
+          (kill-buffer)))
       (add-hook 'write-contents-functions
                 #'etc-sudoers-mode-write-contents-function)
       (setq font-lock-defaults '(generic-font-lock-keywords t))))
   "Generic mode for sudoers configuration files.")
+
+;;;###autoload
+(add-to-list 'auto-mode-alist '("/sudoers\\>" . etc-sudoers-mode))
+
 
 (defun etc-sudoers-mode-live-sudoers-p ()
   "Is the current buffer editing '/etc/sudoers'?
@@ -84,7 +97,40 @@ be somewhere like '/etc/opt/csw/sudoers'"
   nil)
 
 ;;;###autoload
-(add-to-list 'auto-mode-alist '("/sudoers\\>" . etc-sudoers-mode))
+(defun etc-sudoers-mode-visudo ()
+  "Edit the sudoers file via visudo, which will validate the file for you."
+  (interactive)
+  (let* ((default-directory
+           (if (and (file-remote-p default-directory)
+                    (string-equal (tramp-file-name-user (tramp-dissect-file-name
+                                                         default-directory))
+                                  "root"))
+               default-directory
+             (sudo-edit-filename default-directory "root")))
+         (tmp-filename
+          (make-nearby-temp-file "with-editor-sleeping-editor." nil ".sh"))
+         (orig-with-editor-sleeping-editor with-editor-sleeping-editor)
+         (with-editor-sleeping-editor
+          (or (file-remote-p tmp-filename 'localname)
+              tmp-filename)))
+    (with-temp-file tmp-filename
+        (insert "#!/bin/sh
+
+# Ignore '--' as a first argument:
+while getopts '' opt; do
+    :
+done
+shift $((OPTIND-1))
+
+# Tidy up after myself:
+rm $0
+
+exec "
+                orig-with-editor-sleeping-editor
+                " \"${@}\"
+"))
+    (set-file-modes tmp-filename #o500)
+    (with-editor-async-shell-command "visudo")))
 
 
 (with-eval-after-load 'flycheck
