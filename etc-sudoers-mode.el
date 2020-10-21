@@ -28,6 +28,10 @@
 ;;
 ;; If Flycheck is present, it also defines a Flycheck syntax checker
 ;; using visudo.
+;;
+;; Please don't edit /etc/sudoers directly.  It is easy to make a
+;; mistake and lock yourself out of root access.  Instead, don't be put
+;; off by the name: use visudo.
 
 ;;; Code:
 
@@ -55,8 +59,29 @@
     ("\\(\\\\\\)$" 1 font-lock-string-face))
   '("/sudoers\\>")
   '((lambda ()
+      (add-hook 'write-contents-functions
+                #'etc-sudoers-mode-write-contents-function)
       (setq font-lock-defaults '(generic-font-lock-keywords t))))
   "Generic mode for sudoers configuration files.")
+
+(defun etc-sudoers-mode-live-sudoers-p ()
+  "Is the current buffer editing '/etc/sudoers'?
+
+This isn't foolproof, since the live sudoers file could actually
+be somewhere like '/etc/opt/csw/sudoers'"
+  (cl-dolist (path (list (expand-file-name buffer-file-name)
+                         (file-truename buffer-file-name)))
+    (when (string-equal (or (file-remote-p path 'localname) path)
+                        "/etc/sudoers")
+      (cl-return t))))
+
+(defun etc-sudoers-mode-write-contents-function ()
+  "Nag to use 'visudo' instead of directly editing '/etc/sudoers'."
+  (when (eq major-mode 'etc-sudoers-mode)
+    (when (etc-sudoers-mode-live-sudoers-p)
+      (unless (yes-or-no-p "Are sure you want to overwrite the live sudoers file without visudo? If you made a mistake, you could lock yourself out! ")
+        (error "Sensible choice!"))))
+  nil)
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("/sudoers\\>" . etc-sudoers-mode))
