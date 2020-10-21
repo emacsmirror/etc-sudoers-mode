@@ -65,7 +65,7 @@
   '("/sudoers\\>")
   '((lambda ()
       (when (etc-sudoers-mode-live-sudoers-p)
-        (when (y-or-n-p "Editing the sudoers file directly is dangerous. Open via the visudo validator instead? ")
+        (when (y-or-n-p "Editing the sudoers file directly is dangerous.  Open via the visudo validator instead? ")
           (etc-sudoers-mode-visudo)
           (kill-buffer)))
       (add-hook 'write-contents-functions
@@ -78,10 +78,10 @@
 
 
 (defun etc-sudoers-mode-live-sudoers-p ()
-  "Is the current buffer editing '/etc/sudoers'?
+  "Is the current buffer editing `/etc/sudoers'?
 
 This isn't foolproof, since the live sudoers file could actually
-be somewhere like '/etc/opt/csw/sudoers'"
+be somewhere like `/etc/opt/csw/sudoers'"
   (cl-dolist (path (list (expand-file-name buffer-file-name)
                          (file-truename buffer-file-name)))
     (when (string-equal (or (file-remote-p path 'localname) path)
@@ -89,7 +89,7 @@ be somewhere like '/etc/opt/csw/sudoers'"
       (cl-return t))))
 
 (defun etc-sudoers-mode-write-contents-function ()
-  "Nag to use 'visudo' instead of directly editing '/etc/sudoers'."
+  "Nag to use visudo instead of directly editing `/etc/sudoers'."
   (when (eq major-mode 'etc-sudoers-mode)
     (when (etc-sudoers-mode-live-sudoers-p)
       (unless (yes-or-no-p "Are sure you want to overwrite the live sudoers file without visudo? If you made a mistake, you could lock yourself out! ")
