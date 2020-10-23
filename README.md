@@ -4,7 +4,7 @@ This [Emacs](https://www.gnu.org/software/emacs/) package provides syntax highli
 
 If [Flycheck](https://www.flycheck.org/) is present, it also defines a Flycheck syntax checker using [`visudo`](https://www.sudo.ws/man/1.9.3/visudo.man.html).
 
-Please don't edit `/etc/sudoers` directly.  It is easy to make a mistake and lock yourself out of root access.  Instead, don't be put off by the name: use `visudo`.
+Please don't edit `/etc/sudoers` directly.  It is easy to make a mistake and lock yourself out of root access.  Instead, don't be put off by the name: use `visudo`.  You can do that by [setting up `emacsclient`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html#Emacs-Server), or by using the function `(etc-sudoers-mode-visudo)`.
 
 
 [![MELPA Stable](https://stable.melpa.org/packages/etc-sudoers-mode-badge.svg)](https://stable.melpa.org/#/etc-sudoers-mode) [![MELPA](https://melpa.org/packages/etc-sudoers-mode-badge.svg)](https://melpa.org/#/etc-sudoers-mode)

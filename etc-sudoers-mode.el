@@ -31,7 +31,8 @@
 ;;
 ;; Please don't edit /etc/sudoers directly.  It is easy to make a
 ;; mistake and lock yourself out of root access.  Instead, don't be put
-;; off by the name: use visudo.
+;; off by the name: use visudo.  You can do that by setting up
+;; emacsclient, or by using the function (etc-sudoers-mode-visudo).
 
 ;;; Code:
 
