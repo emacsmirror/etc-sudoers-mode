@@ -139,16 +139,18 @@ exec "
     "A sudoers syntax checker using 'visudo -c'."
     :command ("visudo" "-c" "-f" "-")
     :standard-input t
-    :error-patterns ((error line-start ">>> stdin: " (message)
+    :error-patterns ((error line-start (optional "visudo: ") "stdin:" line
+                            (optional ":") " " (message) line-end)
+                     (warning line-start "Warning: stdin:" line
+                              (optional ": ") (message) line-end)
+
+                     ;; sudo < 1.9.3
+                     (error line-start ">>> stdin: " (message)
                             " near line " line " <<<" line-end)
-                     (error line-start "visudo: stdin:" line " " (message)
-                            line-end)
                      (error line-start
                             (or (seq (message) "\nparse error")
                                 (message))
-                            " in stdin near line " line line-end)
-                     (warning line-start "Warning: stdin:" line (message)
-                              line-end))
+                            " in stdin near line " line line-end))
     :modes etc-sudoers-mode)
   (add-to-list 'flycheck-checkers 'sudoers))
 
