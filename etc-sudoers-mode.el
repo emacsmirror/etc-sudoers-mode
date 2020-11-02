@@ -140,6 +140,7 @@ exec "
     :command ("visudo" "-c" "-f" "-")
     :standard-input t
     :error-patterns ((error line-start (optional "visudo: ") "stdin:" line
+                            (optional ":" column)
                             (optional ":") " " (message) line-end)
                      (warning line-start "Warning: stdin:" line
                               (optional ": ") (message) line-end)
