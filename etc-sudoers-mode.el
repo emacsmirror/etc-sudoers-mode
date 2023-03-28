@@ -135,11 +135,11 @@ exec "
 
 
 (with-eval-after-load 'flycheck
-  (flycheck-define-checker sudoers
+  (flycheck-define-command-checker 'sudoers
     "A sudoers syntax checker using 'visudo -c'."
-    :command ("visudo" "-c" "-f" "-")
+    :command '("visudo" "-c" "-f" "-")
     :standard-input t
-    :error-patterns ((error line-start (optional "visudo: ") "stdin:" line
+    :error-patterns '((error line-start (optional "visudo: ") "stdin:" line
                             (optional ":" column)
                             (optional ":") " " (message) line-end)
                      (warning line-start "Warning: stdin:" line
@@ -152,7 +152,7 @@ exec "
                             (or (seq (message) "\nparse error")
                                 (message))
                             " in stdin near line " line line-end))
-    :modes etc-sudoers-mode)
+    :modes 'etc-sudoers-mode)
   (add-to-list 'flycheck-checkers 'sudoers))
 
 
