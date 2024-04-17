@@ -16,7 +16,7 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;; Author: Peter Oliver <git@mavit.org.uk>
-;; Version: 1.1.0
+;; Version: 1.1.1
 ;; Package-Requires: (sudo-edit with-editor)
 ;; Keywords: languages
 ;; URL: https://gitlab.com/mavit/etc-sudoers-mode/
