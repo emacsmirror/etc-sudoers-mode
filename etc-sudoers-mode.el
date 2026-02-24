@@ -1,6 +1,6 @@
 ;;; etc-sudoers-mode.el --- Edit Sudo security policies -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020, 2023-2024 Peter Oliver.
+;; Copyright (C) 2020, 2023-2024, 2026 Peter Oliver.
 ;;
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
